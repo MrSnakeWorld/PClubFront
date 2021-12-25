@@ -13,19 +13,19 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+import {Link} from 'react-router-dom';
+import './AppHeader.css';
+import {Button} from '@mui/material';
 
-const drawerWidth = 240;
+const drawerWidth = 250;
 
 interface IAppBarProps extends MuiAppBarProps {
   open?: boolean;
 }
 
 interface IAppHeaderProps {
-  barElements: string[]
+  barElements: Array<{text: string, path: string}>
 }
 
 const AppBar = styled(MuiAppBar, {
@@ -69,7 +69,7 @@ export default function AppHeader({barElements}: IAppHeaderProps) {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
+      <AppBar position="fixed" open={open} className="app-header">
         <Toolbar>
           <IconButton
             color="inherit"
@@ -105,29 +105,11 @@ export default function AppHeader({barElements}: IAppHeaderProps) {
         </DrawerHeader>
         <Divider />
         <List>
-          {barElements.map((text) => (
-            <ListItem button key={text}>
-              <ListItemText primary={text} />
-            </ListItem>
+          {barElements.map((elem) => (
+            <Button component >{elem.text}</Button>
           ))}
         </List>
       </Drawer>
     </Box>
   );
 }
-
-
-// const AppHeader = () => {
-//   return (
-//     <div className="app-header">
-//       <Drawer
-//         anchor='left'
-
-//       >
-        
-//       </Drawer>
-//     </div>
-//   )
-// }
-
-// export default AppHeader;

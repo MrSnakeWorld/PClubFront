@@ -1,4 +1,12 @@
 .app-header {
-  height: 300px;
-  background-color: gainsboro;
+  height: 60px;
+}
+
+
+.elem-list:active, /* активная/посещенная ссылка */
+.elem-list:hover,  /* при наведении */
+.elem-list {
+  text-decoration: none;
+  color: #666;
+  margin-left: 20px;
 }
