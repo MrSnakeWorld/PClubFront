@@ -1,19 +1,19 @@
 import {Dialog} from '@mui/material';
 import React, {useState} from 'react';
+import AppHeader from '../../components/AppHeader/AppHeader';
 import AuthDialog from '../../components/AuthDialog/AuthDialog';
 import useToggle from '../../hooks/useToggle';
-import Admin from '../Admin/Admin';
-import Client from '../Client/Client';
 import './Main.css';
 
 const Main = () => {
   // const [isOpen, setIsOpen] = useState<boolean>(true);
   const [open, toggleOpen] = useToggle(true);
   const [permission, setPermission] = useState('Client');
-  console.log(permission);
+  const barElements = ['О нас', 'Запись', 'Компьютеры', 'Список клиентов', 'Контакты'];
+
   return (
     <div>
-      {permission === 'Client' ? <Client/> : <Admin/>}
+      <AppHeader barElements={barElements}/>
       <AuthDialog 
         setPermission={setPermission}
         open={open}
