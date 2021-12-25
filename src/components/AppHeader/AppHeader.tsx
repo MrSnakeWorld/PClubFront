@@ -16,7 +16,6 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import {Link} from 'react-router-dom';
 import './AppHeader.css';
-import {Button} from '@mui/material';
 
 const drawerWidth = 250;
 
@@ -106,7 +105,11 @@ export default function AppHeader({barElements}: IAppHeaderProps) {
         <Divider />
         <List>
           {barElements.map((elem) => (
-            <Button component >{elem.text}</Button>
+            <p className="elem-list">
+              <Link to={elem.path}>
+                {elem.text}
+              </Link>
+            </p>
           ))}
         </List>
       </Drawer>
