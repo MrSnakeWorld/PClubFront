@@ -12,7 +12,7 @@ export const getUserEntries = () => {
             const response = await axios.get<IEntry[]>(userEntriesGetAddress,  {headers: { Authorization: `Bearer ${token.access_token}` }})
             dispatch({type: EntryActionTypes.SUCCESS_FETCH_ENTRIES, payload: response.data})
         } catch (error) {
-            dispatch({type: EntryActionTypes.CATCH_ERROR_ENTRIES, payload: error.message})
+            dispatch({type: EntryActionTypes.CATCH_ERROR_ENTRIES, payload: (error as Error).message})
         }
     }
 }

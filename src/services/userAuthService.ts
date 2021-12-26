@@ -38,7 +38,6 @@ export const getTokenHeader = (): ITokenBody => {
         return token;
     }
     else{
-        console.log("Войдите сука");
         throw new Error("СУКААААААААААААААААААААААААААААА");
     }
 }

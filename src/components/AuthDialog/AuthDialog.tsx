@@ -3,7 +3,6 @@ import {Button, Dialog, Grid, Modal, TextField} from '@mui/material';
 import './AuthDialog.css';
 import Login from './components/Login';
 import Registration from './components/Registration';
-import ActionButtons from '../ActionButtons/ActionButtons';
 import useToggle from '../../hooks/useToggle';
 import {IPermission} from '../../constants';
 
@@ -23,15 +22,16 @@ const AuthDialog = ({
   setPermission
 }: IAuthDialogProps) => {
 
-  const handleCancel = () => {
+  const handleLogin = () => {
     setPermission('User');
     toggle();
   }
 
-  const handleConfirm = () => {
+  const handleRegistration = () => {
     setPermission('Admin');
     toggle();
   }
+
 
   return (
     <Dialog
@@ -39,14 +39,11 @@ const AuthDialog = ({
       className="auth-dialog"
     >
       <Grid className="grid">
-        {isAuthLogin ?
-          <Login toggleLogin={setAuthLogin}/> 
-          : <Registration toggleLogin={setAuthLogin}/>}
-        <ActionButtons
-          handleCancel={handleCancel}
-          handleConfirm={handleConfirm}
-        />
-        
+        {
+          isAuthLogin ?
+            <Login toggleLogin={setAuthLogin} handleClick={handleLogin}/>
+            : <Registration toggleLogin={setAuthLogin} handleClick={handleRegistration}/>
+        }
       </Grid>
     </Dialog>
   )

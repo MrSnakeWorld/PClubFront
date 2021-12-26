@@ -17,6 +17,7 @@ import MenuItem from '@mui/material/MenuItem';
 
 interface IEnterCompProps {
   permission: IPermission;
+  setPermission: React.Dispatch<React.SetStateAction<IPermission>>;
   username?: string;
   toggleOpenDialog: () => void;
   setAuthLogin: React.Dispatch<React.SetStateAction<boolean>>;
@@ -24,6 +25,7 @@ interface IEnterCompProps {
 
 const EnterComp = ({
   permission,
+  setPermission,
   username = 'СА',
   toggleOpenDialog,
   setAuthLogin
@@ -57,7 +59,7 @@ const EnterComp = ({
   };
 
   const handleLogout = () => {
-    toggleOpenDialog();
+
   }
 
   return permission ? (

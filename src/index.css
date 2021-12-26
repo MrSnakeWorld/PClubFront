@@ -63,6 +63,7 @@ h2 {
   color: #1b3456;
 }
 
-.fmain-anchor:hover {
+.fmain-anchor {
   cursor: pointer;
+  color: #7dc0d1;
 }

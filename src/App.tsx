@@ -19,8 +19,6 @@ function App() {
   const [permission, setPermission] = useState<IPermission>();
   const [isAuthLogin, setAuthLogin] = useState<boolean>(true);
 
-  console.log(permission);
-
   const barElements = [
     {
       text: 'Запись',
@@ -48,6 +46,7 @@ function App() {
     <Main open={openToolBar}>
       <AppHeader
         permission={permission}
+        setPermission={setPermission}
         barElements={barElements} 
         openToolBar={openToolBar}
         toggleOpenToolBar={toggleOpenToolBar}
@@ -63,7 +62,7 @@ function App() {
         setAuthLogin={setAuthLogin}
       />
       <Routes>
-        <Route path="about" element={<About/>}/>
+        <Route path="/" element={<About/>}/>
         <Route path="clientlist" element={<ClientList/>}/>
         <Route path="computers" element={<Computers/>}/>
         <Route path="contacts" element={<Contacts/>}/>

@@ -32,7 +32,7 @@ const About = () => {
         </Grid>
 
 
-        <Grid item>
+        <Grid item xs={2}>
           <Station />
         </Grid>
         <Grid item xs={8}>

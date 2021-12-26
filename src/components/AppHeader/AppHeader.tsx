@@ -28,6 +28,7 @@ interface IAppHeaderProps {
   setAuthLogin: React.Dispatch<React.SetStateAction<boolean>>;
   openToolBar: boolean;
   permission: IPermission;
+  setPermission: React.Dispatch<React.SetStateAction<IPermission>>
 }
 
 const AppBar = styled(MuiAppBar, {
@@ -61,7 +62,8 @@ export default function AppHeader({
   toggleOpenToolBar, 
   toggleOpenDialog, 
   setAuthLogin,
-  permission
+  permission,
+  setPermission
 }: IAppHeaderProps) {
   const theme = useTheme();
 
@@ -91,6 +93,7 @@ export default function AppHeader({
         </p>
         <EnterComp
           permission={permission}
+          setPermission={setPermission}
           toggleOpenDialog={toggleOpenDialog}
           setAuthLogin={setAuthLogin}
         />
