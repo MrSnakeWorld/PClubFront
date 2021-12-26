@@ -13,6 +13,7 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
+import {getUserInfo} from '../../services/userAuthService';
 
 interface IEnterCompProps {
   permission: IPermission;
@@ -25,10 +26,15 @@ interface IEnterCompProps {
 const EnterComp = ({
   permission,
   setPermission,
-  username = 'СА',
   toggleOpenDialog,
   setAuthLogin
 }: IEnterCompProps) => {
+  const [username, setUsername] = React.useState<string>('');
+
+  useEffect(() => {
+    getUserInfo().then((res) => setUsername(`${res.FirstName[0]}${res.SecondName[0]}`));
+  }, [permission])
+
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
@@ -58,6 +64,9 @@ const EnterComp = ({
   };
 
   const handleLogout = () => {
+    localStorage.removeItem('userToken');
+    localStorage.removeItem('userInfo');
+    handleCloseNavMenu();
     setPermission(undefined);
     toggleOpenDialog();
   }

@@ -88,7 +88,7 @@ const Registration = ({
         email: refEmail?.current ? refEmail?.current.value : '',
         phoneNumber: refPhone?.current ? refPhone?.current.value : '',
         password: refPass?.current ? refPass?.current.value : '',
-        role: 'User'
+        role: 'Admin'
       })}>Зарегистрироваться</Button> <br/>
       <p>
         <a className="fmain-anchor reg-anchor" onClick={handleLogin}>Есть логин? <br/> Войти</a>

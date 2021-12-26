@@ -12,6 +12,7 @@ import Entries from './pages/Entries/Entries';
 import {IPermission} from './constants';
 import DrawerHeader from './components/DrawerHeader/DrawerHeader';
 import Main from './components/Main/Main';
+import {getUserInfo} from './services/userAuthService';
 
 interface IBarElements {
   text: string;
@@ -19,12 +20,13 @@ interface IBarElements {
 }
 
 function App() {
+  getUserInfo().then((res) => setPermission(res.Role));
   const [openDialog, toggleOpenDialog] = useToggle(false);
   const [openToolBar, toggleOpenToolBar] = useToggle()
   const [permission, setPermission] = useState<IPermission>();
   const [isAuthLogin, setAuthLogin] = useState<boolean>(true);
   const [barElements, setBarElements] = useState<Array<IBarElements>>([]);
-
+  console.log(permission)
   useEffect(() => {
     switch (permission) {
       case 'Admin': {

@@ -27,18 +27,19 @@ interface IEntriesProps {
 }
 
 const Entries = ({permission}: IEntriesProps) => {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   if (permission === 'User') {
-  //     dispatch(getUserEntries())
-  //   } else if (permission === 'Admin') {
-  //     dispatch(getAllEntries())
-  //   }
-  // }, [dispatch])
+  useEffect(() => {
+    if (permission === 'User') {
+      dispatch(getUserEntries());
+    } else if (permission === 'Admin') {
+      dispatch(getAllEntries());
+    }
+  }, [dispatch]);
 
-  // const entries = useTypesSelector(state => state.entries.items);
-  // console.log(entries)
+  const entries = useTypesSelector(state => state.entries.items);
+  console.log(entries);
+
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { config } from "process";
+import {IPermission} from "../constants";
 
 const authHost = "http://26.213.25.20:4080/";
 const grantType = "password";
@@ -60,7 +61,7 @@ export interface IUserInfo {
     FirstName: string,
     SecondName: string,
     PhoneNumber: string,
-    Role: string,
+    Role: IPermission,
     sub: string
 }
 
