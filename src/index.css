@@ -16,6 +16,7 @@ a.text:active, /* активная/посещенная ссылка */
 a.text:hover,  /* при наведении */
 a.text {
   text-decoration: none;
+
 }
 
 
@@ -60,4 +61,8 @@ h2 {
 
 .fmain-text {
   color: #1b3456;
+}
+
+.fmain-anchor:hover {
+  cursor: pointer;
 }

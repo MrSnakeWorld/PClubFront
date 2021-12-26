@@ -91,7 +91,7 @@ const EnterComp = ({
       </Menu>
     </Box>
   ) : (
-    <p className='fmain-text enter-text'>
+    <p className='fmain-text fmain-anchor enter-text'>
       <a onClick={handleLogin}>Войти</a>/<a onClick={handleRegistration}>Регистрация</a>
     </p>
   )

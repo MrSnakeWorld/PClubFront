@@ -3,6 +3,10 @@
   top: 15px;
   right: 20px;
   z-index: 10;
+  color: #7dc0d1;
+}
+.enter-text:hover {
+  cursor: pointer;
 }
 
 .enter-user {

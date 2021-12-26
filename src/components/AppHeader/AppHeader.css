@@ -8,10 +8,14 @@
   z-index: 10;
 }
 
-.elem-list:active, /* активная/посещенная ссылка */
-.elem-list:hover,  /* при наведении */
+.elem-list:active,
+.elem-list:hover, 
 .elem-list {
   text-decoration: none;
   color: #666;
   margin-left: 20px;
+}
+
+.elem-list:hover {
+  cursor: pointer;
 }
