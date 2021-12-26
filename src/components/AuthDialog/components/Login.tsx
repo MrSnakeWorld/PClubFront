@@ -11,6 +11,8 @@ const Login = ({
   const handleRegistration = () => {
     toggleLogin(false)
   }
+
+
   return (
     <div className="login">
       <div className="header">
