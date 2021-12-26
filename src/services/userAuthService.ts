@@ -26,9 +26,21 @@ export interface ITokenBody {
     scope: string
 }
 
-export const registerUser = (userData: IRegisterRequest) => {
+export interface IErrorRegsitrationResponse {
+    code: string | null,
+    description: string | null
+}
+
+export interface ILoginResponse {
+    error: string | null,
+    error_description: string | null,
+    access_token: string | null
+}
+
+export const registerUser = async (userData: IRegisterRequest): Promise<IErrorRegsitrationResponse> => {
     const registerEndpoint = authHost + "api/user/register";
-    axios.post(registerEndpoint, userData);
+    const response = await axios.post<IErrorRegsitrationResponse>(registerEndpoint, userData);
+    return response.data;
 }
 
 export const getTokenHeader = (): ITokenBody => {
@@ -43,7 +55,7 @@ export const getTokenHeader = (): ITokenBody => {
     }
 }
 
-export const loginUser = (userData: ILoginRequest) => {
+export const loginUser = async (userData: ILoginRequest): Promise<ILoginResponse> => {
     const params = new URLSearchParams();
     params.append('grant_type', grantType);
     params.append('client_secret', clientSecret);
@@ -59,12 +71,7 @@ export const loginUser = (userData: ILoginRequest) => {
 
     const tokenEndpoint = authHost + "connect/token";
 
-    axios.post(tokenEndpoint, params, config)
-        .then((result) => {
-            console.log(result.data)
-            localStorage.setItem("userToken", JSON.stringify(result.data))
-        })
-        .catch((err) => {
-            console.log(err)
-        });
+    const response = await axios.post<ILoginResponse>(tokenEndpoint, params, config);
+    localStorage.setItem("userToken", JSON.stringify(response.data))
+    return response.data;
 }
