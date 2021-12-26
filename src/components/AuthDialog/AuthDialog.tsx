@@ -5,6 +5,7 @@ import Login from './components/Login';
 import Registration from './components/Registration';
 import useToggle from '../../hooks/useToggle';
 import {IPermission} from '../../constants';
+import {ILoginRequest, IRegisterRequest, loginUser, registerUser} from '../../services/userAuthService';
 
 interface IAuthDialogProps {
   open: boolean;
@@ -22,16 +23,20 @@ const AuthDialog = ({
   setPermission
 }: IAuthDialogProps) => {
 
-  const handleLogin = () => {
-    setPermission('User');
-    toggle();
+  const handleLogin = (userData: ILoginRequest) => {
+    console.log('Login', userData);
+    loginUser(userData).then((res) => {
+      setPermission('User');
+      toggle();
+    }).catch((err) => console.log('Login', err))
   }
 
-  const handleRegistration = () => {
-    setPermission('Admin');
-    toggle();
+  const handleRegistration = (userData: IRegisterRequest) => {
+    console.log('Register',userData);
+    registerUser(userData).then((res) => {
+      handleLogin({email: userData.email, password: userData.password})
+    }).catch((err) => console.log('Register', err))
   }
-
 
   return (
     <Dialog
@@ -40,8 +45,8 @@ const AuthDialog = ({
     >
       <Grid className="grid">
         {
-          isAuthLogin ?
-            <Login toggleLogin={setAuthLogin} handleClick={handleLogin}/>
+          isAuthLogin
+          ? <Login toggleLogin={setAuthLogin} handleClick={handleLogin}/>
             : <Registration toggleLogin={setAuthLogin} handleClick={handleRegistration}/>
         }
       </Grid>

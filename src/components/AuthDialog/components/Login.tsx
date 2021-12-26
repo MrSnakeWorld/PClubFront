@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import {Button, TextField} from '@mui/material';
+import {ILoginRequest} from '../../../services/userAuthService';
 
 interface ILoginProps {
   toggleLogin: React.Dispatch<React.SetStateAction<boolean>>;
-  handleClick: () => any;
+  handleClick: (userData: ILoginRequest) => any;
 }
 
 const Login = ({
@@ -14,6 +15,9 @@ const Login = ({
     toggleLogin(false)
   }
 
+  const refEmail = useRef<HTMLInputElement>(null);
+  const refPass = useRef<HTMLInputElement>(null);
+
   return (
     <div className="login">
       <div className="header">
@@ -21,15 +25,18 @@ const Login = ({
       </div>
       <div className="input">
         <p>E-mail</p>
-        <TextField/>
+        <TextField inputRef={refEmail}/>
       </div>
       <div className="input">
         <p>Пароль</p>
-        <TextField/>
+        <TextField inputRef={refPass}/>
       </div>
       <Button variant="contained" sx={{
         backgroundColor: '#51a2f1', color: '#fff'
-      }} onClick={handleClick}>Войти</Button>
+      }} onClick={() => handleClick({
+        email: refEmail?.current ? refEmail.current.value : '',
+        password: refPass?.current ? refPass.current.value : ''
+      })}>Войти</Button>
       <p className="fmain-anchor" onClick={handleRegistration}>Регистрация</p>
     </div>
   )

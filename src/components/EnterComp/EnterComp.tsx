@@ -59,7 +59,8 @@ const EnterComp = ({
   };
 
   const handleLogout = () => {
-
+    setPermission(undefined);
+    toggleOpenDialog();
   }
 
   return permission ? (
