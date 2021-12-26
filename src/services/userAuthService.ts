@@ -1,4 +1,5 @@
 import axios from "axios";
+import { config } from "process";
 
 const authHost = "http://26.213.25.20:4080/";
 const grantType = "password";
@@ -51,6 +52,29 @@ export const getTokenHeader = (): ITokenBody => {
     }
     else{
         throw new Error("СУКААААААААААААААААААААААААААААА");
+    }
+}
+
+export interface IUserInfo {
+    Email: string,
+    FirstName: string,
+    SecondName: string,
+    PhoneNumber: string,
+    Role: string,
+    sub: string
+}
+
+export const getUserInfo = async () : Promise<IUserInfo> => {
+    const userInfo = localStorage.getItem("userInfo");
+    if (userInfo) {
+        const response: IUserInfo = JSON.parse(userInfo);
+        return response;
+    }
+    else {
+        const token = getTokenHeader();
+        const response = await axios.post<IUserInfo>(authHost + "connect/userinfo", null, {headers: { Authorization: `Bearer ${token.access_token}` }})
+        localStorage.setItem("userInfo", JSON.stringify(response.data))
+        return response.data;
     }
 }
 
