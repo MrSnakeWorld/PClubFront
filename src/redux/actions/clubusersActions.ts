@@ -12,7 +12,7 @@ export const getClubUsers = () => {
             const response = await axios.get<IClubUser[]>(computersGetAddress, {headers: { Authorization: `Bearer ${token.access_token}` }})
             dispatch({type: ClubUserActionTypes.SUCCESS_FETCH_CLUBUSERS, payload: response.data})
         } catch (error) {
-            dispatch({type: ClubUserActionTypes.CATCH_ERROR_CLUBUSERS, payload: error.message})
+            dispatch({type: ClubUserActionTypes.CATCH_ERROR_CLUBUSERS, payload: (error as Error).message})
         }
     }
 }

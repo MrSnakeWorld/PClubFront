@@ -12,7 +12,7 @@ export const getComputers = () => {
             const response = await axios.get<IComputer[]>(computersGetAddress, {headers: { Authorization: `Bearer ${token.access_token}` }})
             dispatch({type: ComputerActionTypes.SUCCESS_FETCH_COMPUTERS, payload: response.data})
         } catch (error) {
-            dispatch({type: ComputerActionTypes.CATCH_ERROR_COMPUTERS, payload: error.message})
+            dispatch({type: ComputerActionTypes.CATCH_ERROR_COMPUTERS, payload: (error as Error).message})
         }
     }
 }
