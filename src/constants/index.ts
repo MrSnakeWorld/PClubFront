@@ -4,3 +4,5 @@ export interface IIconProps {
   height?: number;
   width?: number;
 };
+
+export type IPermission = 'User' | 'Admin' | undefined

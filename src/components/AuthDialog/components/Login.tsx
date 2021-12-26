@@ -2,14 +2,14 @@ import React from 'react';
 import {TextField} from '@mui/material';
 
 interface ILoginProps {
-  toggleLogin: () => void;
+  toggleLogin: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const Login = ({
   toggleLogin
 }: ILoginProps) => {
   const handleRegistration = () => {
-    toggleLogin()
+    toggleLogin(false)
   }
   return (
     <div className="login">

@@ -4,11 +4,18 @@ body {
 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #dfebf1;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+a.text:active, /* активная/посещенная ссылка */
+a.text:hover,  /* при наведении */
+a.text {
+  text-decoration: none;
 }
 
 
@@ -30,4 +37,27 @@ h2 {
 .fheader {
   font-size: 40px;
   font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #414bb2;
+}
+
+.fadd-header {
+  font-size: 20px;
+  font-weight: bold;
+  color: #414bb2;
+}
+
+.fmain-header {
+  z-index: 9;
+  position: relative;
+  bottom: 60px;
+  color: #414bb2;
+  text-align: center;
+  font-size: 40px;
+  font-weight: bold;
+}
+
+.fmain-text {
+  color: #1b3456;
 }

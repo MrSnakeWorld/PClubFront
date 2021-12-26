@@ -5,21 +5,24 @@ import Login from './components/Login';
 import Registration from './components/Registration';
 import ActionButtons from '../ActionButtons/ActionButtons';
 import useToggle from '../../hooks/useToggle';
+import {IPermission} from '../../constants';
 
 interface IAuthDialogProps {
   open: boolean;
   toggle: () => void;
   isAuthLogin: boolean;
-  setPermission: React.Dispatch<React.SetStateAction<string>>
+  setAuthLogin: React.Dispatch<React.SetStateAction<boolean>>;
+  setPermission: React.Dispatch<React.SetStateAction<IPermission>>;
 }
 
 const AuthDialog = ({
   open,
   toggle,
   isAuthLogin,
+  setAuthLogin,
   setPermission
 }: IAuthDialogProps) => {
-  const [login, toggleLogin] = useToggle(isAuthLogin)
+
   const handleCancel = () => {
     setPermission('User');
     toggle();
@@ -36,9 +39,9 @@ const AuthDialog = ({
       className="auth-dialog"
     >
       <Grid className="grid">
-        {login ?
-          <Login toggleLogin={toggleLogin}/> 
-          : <Registration toggleLogin={toggleLogin}/>}
+        {isAuthLogin ?
+          <Login toggleLogin={setAuthLogin}/> 
+          : <Registration toggleLogin={setAuthLogin}/>}
         <ActionButtons
           handleCancel={handleCancel}
           handleConfirm={handleConfirm}

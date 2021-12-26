@@ -45,7 +45,7 @@ const ClientList = () => {
 
   return (
     <Box>
-      <h2>Список клиентов</h2>
+      <h2 className="fheader">Список клиентов</h2>
         <Paper sx={{ width: '100%', overflow: 'hidden' }}>
           <TableContainer sx={{ maxHeight: 440 }}>
             <Table stickyHeader aria-label="sticky table">

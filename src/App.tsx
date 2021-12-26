@@ -9,20 +9,19 @@ import About from './pages/About/About';
 import ClientList from './pages/ClientList/ClientList';
 import Computers from './pages/Computers/Computers';
 import Entries from './pages/Entries/Entries';
-import { styled, useTheme } from '@mui/material/styles';
-import {drawerWidth} from './constants';
+import {IPermission} from './constants';
 import DrawerHeader from './components/DrawerHeader/DrawerHeader';
 import Main from './components/Main/Main';
 
 function App() {
-  const [open, toggleOpen] = useToggle(true);
+  const [openDialog, toggleOpenDialog] = useToggle(false);
   const [openToolBar, toggleOpenToolBar] = useToggle()
-  const [permission, setPermission] = useState('Client');
+  const [permission, setPermission] = useState<IPermission>();
+  const [isAuthLogin, setAuthLogin] = useState<boolean>(true);
+
+  console.log(permission);
+
   const barElements = [
-    {
-      text: 'О нас',
-      path: 'about'
-    },
     {
       text: 'Запись',
       path: 'entries'
@@ -36,6 +35,10 @@ function App() {
       path: 'clientlist'
     },
     {
+      text: 'О нас',
+      path: 'about'
+    },
+    {
       text: 'Контакты',
       path: 'contacts'
     },
@@ -43,17 +46,21 @@ function App() {
 
   return (
     <Main open={openToolBar}>
-      <AppHeader 
+      <AppHeader
+        permission={permission}
         barElements={barElements} 
         openToolBar={openToolBar}
         toggleOpenToolBar={toggleOpenToolBar}
+        toggleOpenDialog={toggleOpenDialog}
+        setAuthLogin={setAuthLogin}
       />
       <DrawerHeader />
       <AuthDialog 
         setPermission={setPermission}
-        open={open}
-        toggle={toggleOpen}
-        isAuthLogin={true}
+        open={openDialog}
+        toggle={toggleOpenDialog}
+        isAuthLogin={isAuthLogin}
+        setAuthLogin={setAuthLogin}
       />
       <Routes>
         <Route path="about" element={<About/>}/>

@@ -1,7 +1,12 @@
 .app-header {
   height: 60px;
+  background-color: #e4e2e1;
+  width: 100%;
 }
 
+.hamburger {
+  z-index: 10;
+}
 
 .elem-list:active, /* активная/посещенная ссылка */
 .elem-list:hover,  /* при наведении */

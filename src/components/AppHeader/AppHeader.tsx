@@ -12,12 +12,10 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
 import {Link} from 'react-router-dom';
 import './AppHeader.css';
-import {drawerWidth} from '../../constants';
-import Main from '../Main/Main';
+import {drawerWidth, IPermission} from '../../constants';
+import EnterComp from '../EnterComp/EnterComp';
 
 interface IAppBarProps extends MuiAppBarProps {
   open?: boolean;
@@ -26,7 +24,10 @@ interface IAppBarProps extends MuiAppBarProps {
 interface IAppHeaderProps {
   barElements: Array<{text: string, path: string}>;
   toggleOpenToolBar: () => void;
+  toggleOpenDialog: () => void;
+  setAuthLogin: React.Dispatch<React.SetStateAction<boolean>>;
   openToolBar: boolean;
+  permission: IPermission;
 }
 
 const AppBar = styled(MuiAppBar, {
@@ -50,32 +51,49 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
   ...theme.mixins.toolbar,
   justifyContent: 'flex-end',
 }));
 
-export default function AppHeader({barElements, openToolBar, toggleOpenToolBar}: IAppHeaderProps) {
+export default function AppHeader({
+  barElements, 
+  openToolBar, 
+  toggleOpenToolBar, 
+  toggleOpenDialog, 
+  setAuthLogin,
+  permission
+}: IAppHeaderProps) {
   const theme = useTheme();
 
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar position="fixed" open={openToolBar} className="app-header">
+      <AppBar 
+        position="fixed" 
+        open={openToolBar} 
+        className="app-header" 
+        sx={{backgroundColor: '#e4e2e1'}}
+      >
         <Toolbar>
           <IconButton
+            className="hamburger"
             color="inherit"
             aria-label="open drawer"
             onClick={toggleOpenToolBar}
             edge="start"
-            sx={{ mr: 2, ...(openToolBar && { display: 'none' }) }}
+            sx={{ mr: 2, backgroundColor:'#414bb2', ...(openToolBar && { display: 'none' }) }}
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            PClub
-          </Typography>
         </Toolbar>
+        <p className="fmain-header">
+          PClub
+        </p>
+        <EnterComp
+          permission={permission}
+          toggleOpenDialog={toggleOpenDialog}
+          setAuthLogin={setAuthLogin}
+        />
       </AppBar>
       <Drawer
         sx={{
@@ -98,7 +116,7 @@ export default function AppHeader({barElements, openToolBar, toggleOpenToolBar}:
         <Divider />
         <List>
           {barElements.map((elem) => (
-            <p className="elem-list" onClick={(toggleOpenToolBar)} key={elem.path}>
+            <p className="elem-list" key={elem.path}>
               <Link to={elem.path} className="elem-list">
                 {elem.text}
               </Link>

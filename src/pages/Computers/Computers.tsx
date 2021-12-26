@@ -5,7 +5,7 @@ import {Box} from '@mui/system';
 const Computers = () => {
   return (
     <Grid>
-      <h2>Компьютеры</h2>
+      <h2 className="fheader">Компьютеры</h2>
       
     </Grid>
   )
