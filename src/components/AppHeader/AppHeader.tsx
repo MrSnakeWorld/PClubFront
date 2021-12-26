@@ -16,15 +16,17 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import {Link} from 'react-router-dom';
 import './AppHeader.css';
-
-const drawerWidth = 250;
+import {drawerWidth} from '../../constants';
+import Main from '../Main/Main';
 
 interface IAppBarProps extends MuiAppBarProps {
   open?: boolean;
 }
 
 interface IAppHeaderProps {
-  barElements: Array<{text: string, path: string}>
+  barElements: Array<{text: string, path: string}>;
+  toggleOpenToolBar: () => void;
+  openToolBar: boolean;
 }
 
 const AppBar = styled(MuiAppBar, {
@@ -53,29 +55,20 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-end',
 }));
 
-export default function AppHeader({barElements}: IAppHeaderProps) {
+export default function AppHeader({barElements, openToolBar, toggleOpenToolBar}: IAppHeaderProps) {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
-
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
 
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open} className="app-header">
+      <AppBar position="fixed" open={openToolBar} className="app-header">
         <Toolbar>
           <IconButton
             color="inherit"
             aria-label="open drawer"
-            onClick={handleDrawerOpen}
+            onClick={toggleOpenToolBar}
             edge="start"
-            sx={{ mr: 2, ...(open && { display: 'none' }) }}
+            sx={{ mr: 2, ...(openToolBar && { display: 'none' }) }}
           >
             <MenuIcon />
           </IconButton>
@@ -95,18 +88,18 @@ export default function AppHeader({barElements}: IAppHeaderProps) {
         }}
         variant="persistent"
         anchor="left"
-        open={open}
+        open={openToolBar}
       >
         <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
+          <IconButton onClick={toggleOpenToolBar}>
             {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>
         </DrawerHeader>
         <Divider />
         <List>
           {barElements.map((elem) => (
-            <p className="elem-list">
-              <Link to={elem.path}>
+            <p className="elem-list" onClick={(toggleOpenToolBar)} key={elem.path}>
+              <Link to={elem.path} className="elem-list">
                 {elem.text}
               </Link>
             </p>

@@ -9,9 +9,14 @@ import About from './pages/About/About';
 import ClientList from './pages/ClientList/ClientList';
 import Computers from './pages/Computers/Computers';
 import Entries from './pages/Entries/Entries';
+import { styled, useTheme } from '@mui/material/styles';
+import {drawerWidth} from './constants';
+import DrawerHeader from './components/DrawerHeader/DrawerHeader';
+import Main from './components/Main/Main';
 
 function App() {
   const [open, toggleOpen] = useToggle(true);
+  const [openToolBar, toggleOpenToolBar] = useToggle()
   const [permission, setPermission] = useState('Client');
   const barElements = [
     {
@@ -37,8 +42,13 @@ function App() {
   ];
 
   return (
-    <div className="App">
-      <AppHeader barElements={barElements}/>
+    <Main open={openToolBar}>
+      <AppHeader 
+        barElements={barElements} 
+        openToolBar={openToolBar}
+        toggleOpenToolBar={toggleOpenToolBar}
+      />
+      <DrawerHeader />
       <AuthDialog 
         setPermission={setPermission}
         open={open}
@@ -52,7 +62,7 @@ function App() {
         <Route path="contacts" element={<Contacts/>}/>
         <Route path="entries" element={<Entries/>}/>
       </Routes>
-    </div>
+    </Main>  
   )
 }
 
