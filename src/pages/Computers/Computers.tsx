@@ -1,11 +1,13 @@
-import {Box} from '@mui/system';
 import React from 'react';
+import {Grid} from '@mui/material';
+import {Box} from '@mui/system';
 
 const Computers = () => {
   return (
-    <Box>
+    <Grid>
       <h2>Компьютеры</h2>
-    </Box>
+      
+    </Grid>
   )
 }
 

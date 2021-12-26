@@ -73,7 +73,7 @@ export default function AppHeader({barElements, openToolBar, toggleOpenToolBar}:
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            Компьютерный клуб
+            PClub
           </Typography>
         </Toolbar>
       </AppBar>
