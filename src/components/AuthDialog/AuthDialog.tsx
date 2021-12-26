@@ -42,6 +42,7 @@ const AuthDialog = ({
     <Dialog
       open={open}
       className="auth-dialog"
+      onClose={toggle}
     >
       <Grid className="grid">
         {

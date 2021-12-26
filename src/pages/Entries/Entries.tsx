@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Box} from '@mui/system';
 import {columns} from './columns';
 import Paper from '@mui/material/Paper';
@@ -9,6 +9,10 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
+import {getAllEntries, getUserEntries} from '../../redux/actions/entriesActions';
+import {useDispatch} from 'react-redux';
+import {useTypesSelector} from '../../redux/hooks';
+import {IPermission} from '../../constants';
 
 interface IEntries {
   id: number;
@@ -18,7 +22,23 @@ interface IEntries {
   idComp: string;
 }
 
-const Entries = () => {
+interface IEntriesProps {
+  permission: IPermission;
+}
+
+const Entries = ({permission}: IEntriesProps) => {
+  // const dispatch = useDispatch();
+
+  // useEffect(() => {
+  //   if (permission === 'User') {
+  //     dispatch(getUserEntries())
+  //   } else if (permission === 'Admin') {
+  //     dispatch(getAllEntries())
+  //   }
+  // }, [dispatch])
+
+  // const entries = useTypesSelector(state => state.entries.items);
+  // console.log(entries)
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 

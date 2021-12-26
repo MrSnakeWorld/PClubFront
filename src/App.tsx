@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css';
 import useToggle from './hooks/useToggle';
 import AppHeader from './components/AppHeader/AppHeader';
@@ -13,34 +13,85 @@ import {IPermission} from './constants';
 import DrawerHeader from './components/DrawerHeader/DrawerHeader';
 import Main from './components/Main/Main';
 
+interface IBarElements {
+  text: string;
+  path: string
+}
+
 function App() {
   const [openDialog, toggleOpenDialog] = useToggle(false);
   const [openToolBar, toggleOpenToolBar] = useToggle()
   const [permission, setPermission] = useState<IPermission>();
   const [isAuthLogin, setAuthLogin] = useState<boolean>(true);
+  const [barElements, setBarElements] = useState<Array<IBarElements>>([]);
 
-  const barElements = [
-    {
-      text: 'Запись',
-      path: 'entries'
-    },
-    {
-      text: 'Компьютеры',
-      path: 'computers'
-    },
-    {
-      text: 'Список клиентов',
-      path: 'clientlist'
-    },
-    {
-      text: 'О нас',
-      path: 'about'
-    },
-    {
-      text: 'Контакты',
-      path: 'contacts'
-    },
-  ];
+  useEffect(() => {
+    switch (permission) {
+      case 'Admin': {
+        setBarElements(
+          [
+            {
+              text: 'Записи',
+              path: 'entries'
+            },
+            {
+              text: 'Компьютеры',
+              path: 'computers'
+            },
+            {
+              text: 'Список клиентов',
+              path: 'clientlist'
+            },
+            {
+              text: 'О нас',
+              path: '/'
+            },
+            {
+              text: 'Контакты',
+              path: 'contacts'
+            },
+          ]
+        );
+        break;
+      }
+
+      case 'User': {
+        setBarElements([
+          {
+            text: 'Записи',
+            path: 'entries'
+          },
+          {
+            text: 'Компьютеры',
+            path: 'computers'
+          },
+          {
+            text: 'О нас',
+            path: '/'
+          },
+          {
+            text: 'Контакты',
+            path: 'contacts'
+          },
+        ]);
+        break;
+      }
+
+      default: {
+        setBarElements([
+          {
+            text: 'О нас',
+            path: '/'
+          },
+          {
+            text: 'Контакты',
+            path: 'contacts'
+          },
+        ])
+        break;
+      }
+    }
+  }, [permission])
 
   return (
     <Main open={openToolBar}>
@@ -66,7 +117,7 @@ function App() {
         <Route path="clientlist" element={<ClientList/>}/>
         <Route path="computers" element={<Computers/>}/>
         <Route path="contacts" element={<Contacts/>}/>
-        <Route path="entries" element={<Entries/>}/>
+        <Route path="entries" element={<Entries permission={permission}/>}/>
       </Routes>
     </Main>  
   )

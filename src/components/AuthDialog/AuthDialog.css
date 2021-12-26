@@ -1,9 +1,16 @@
 .auth-dialog {
   border-radius: 100px;
-
 }
 
 .grid {
-  padding: 20px;
+  padding: 40px 100px;
   background-color: aliceblue;
+}
+
+.input {
+  margin-bottom: 20px;
+}
+
+.reg-anchor {
+  width: 200px
 }
