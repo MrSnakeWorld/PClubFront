@@ -23,8 +23,11 @@ export const defaultUser: IUserInfo = {
   phoneNumber: '',
   secondName: '',
 }
-
 export const defaultUserString = JSON.stringify(defaultUser);
+
+export const defaultUsers: IUserInfo[] = [defaultUser];
+
+export const defaultUsersString = JSON.stringify(defaultUsers.map((val) => JSON.stringify(val)));
 
 export const defaultEntries: IEntries[] = [{
   id: ' ',
@@ -32,7 +35,7 @@ export const defaultEntries: IEntries[] = [{
   time: '',
   user: '',
   idComp: ''
-}]
+}];
 
 export const defaultEntriesString = JSON.stringify(defaultEntries.map(val => JSON.stringify(val)))
 

@@ -9,7 +9,7 @@ import About from './pages/About/About';
 import ClientList from './pages/ClientList/ClientList';
 import Computers from './pages/Computers/Computers';
 import Entries from './pages/Entries/Entries';
-import {defaultUserString, IPermission} from './constants';
+import {defaultEntriesString, defaultUserString, IPermission} from './constants';
 import DrawerHeader from './components/DrawerHeader/DrawerHeader';
 import Main from './components/Main/Main';
 import {getUserInfo, IRegisterRequest, IUserInfo} from './services/userAuthService';
@@ -41,7 +41,6 @@ function App() {
   const [barElements, setBarElements] = useState<Array<IBarElements>>([]);
   const [isCreateAdmin, setIsCreateAdmin] = useState<boolean>(false);
 
-
   const checkPermission = () => {
     const currentUser: IUserInfo = JSON.parse(localStorage.getItem('CurrentUser') || defaultUserString);
     if (currentUser) {
@@ -57,7 +56,7 @@ function App() {
       idComp: entry.idComp
     });
     if (localStorage.getItem('Entries') !== null) {
-      const entries = JSON.parse(localStorage.getItem('Entries') || '');
+      const entries = JSON.parse(localStorage.getItem('Entries') || defaultEntriesString);
       localStorage.setItem('Entries', JSON.stringify([...entries, normalizedEntry]));
     } else {
       localStorage.setItem('Entries', JSON.stringify([normalizedEntry]));

@@ -2,7 +2,7 @@ import React, {useState, useRef} from 'react';
 import {Autocomplete, Button, Dialog, Grid, Modal, TextField} from '@mui/material';
 import './CreateEntryDialog.css';
 import useToggle from '../../hooks/useToggle';
-import {defaultUserString, IPermission} from '../../constants';
+import {defaultUsersString, defaultUserString,IPermission} from '../../constants';
 import {ILoginRequest, IRegisterRequest, IUserInfo, loginUser, registerUser} from '../../services/userAuthService';
 import computersData from '../../pages/Computers/computersData';
 import {ICreateEntry} from '../../App';
@@ -23,7 +23,8 @@ const CreateEntryDialog = ({
   handleCreateEntry
 }: ICreateEntryDialogProps) => {
   const computers = computersData.map(val => val.name);
-  const stringUsers: string[] = JSON.parse(localStorage.getItem('Users') || '');
+  const stringUsers: string[] = JSON.parse(localStorage.getItem('Users') || defaultUsersString);
+  console.log(stringUsers);
   const Users = stringUsers.map((val) => JSON.parse(val));
   const allUsers = Users.map(val => `${val.firstName} ${val.secondName}`);
 
