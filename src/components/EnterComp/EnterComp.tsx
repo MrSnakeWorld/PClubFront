@@ -14,7 +14,7 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import {getUserInfo, IUserInfo} from '../../services/userAuthService';
-import {formLabelClasses} from '@mui/material';
+import {Card, formLabelClasses} from '@mui/material';
 
 interface IEnterCompProps {
   permission: IPermission;
@@ -117,14 +117,16 @@ const EnterComp = ({
         open={Boolean(anchorElUser)}
         onClose={handleCloseUserMenu}
       > 
-        <MenuItem onClick={handleCloseUserMenu}>
-          <Typography textAlign="center" >{`${currentUser.firstName} ${currentUser.secondName}`}</Typography>
-        </MenuItem>
-        <MenuItem onClick={handleCloseUserMenu}>
-          <Typography textAlign="center" >{
+        <Card className="cards">
+          <Typography textAlign="left" className="card-info">
+            {`${currentUser.firstName} ${currentUser.secondName}`}
+          </Typography>
+
+          <Typography textAlign="left" className="card-info">{
             permission === 'Admin' ? 'Администратор' : 'Пользователь'
           }</Typography>
-        </MenuItem>
+        </Card>
+          
         {permission === 'Admin' ? (
           <MenuItem onClick={handleCreateAdmin}>
             <Typography textAlign="center" >Добавить Администратора</Typography>

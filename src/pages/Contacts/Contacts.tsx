@@ -66,7 +66,7 @@ const Contacts = () => {
               <div className="icons"><Persons/></div>
             </Grid>
             <Grid item xs={11}>
-              <h2 className='fadd-header'>Разработчик</h2>
+              <h2 className='fadd-header'>Разработчик/Дизайнер</h2>
               <p className='fmain-text'>Соболев Артем</p>
             </Grid>
           </Grid>
@@ -76,7 +76,7 @@ const Contacts = () => {
               <div className="icons"><Persons/></div>
             </Grid>
             <Grid item xs={11}>
-              <h2 className='fadd-header'>Разработчик</h2>
+              <h2 className='fadd-header'>Разработчик/Тестировщик</h2>
               <p className='fmain-text'>Габдулбаров Рустам</p>
             </Grid>
           </Grid>
