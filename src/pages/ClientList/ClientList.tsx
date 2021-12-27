@@ -12,10 +12,10 @@ import TableRow from '@mui/material/TableRow';
 import {IUserInfo} from '../../services/userAuthService';
 import {Button} from '@mui/material';
 import './ClientList.css';
-import {IPermission} from '../../constants';
+import {defaultUsersString, IPermission} from '../../constants';
 
 interface IClientsData {
-  id: number;
+  id: number | string;
   firstname: string;
   lastname: string;
   pass: string;
@@ -24,8 +24,8 @@ interface IClientsData {
 }
 
 const ClientList = ({permission}: {permission: IPermission}) => {
-  const normalizeRows = (data: IUserInfo[]): IClientsData[] => data.map((val, i) => ({
-    id: i + 1,
+  const normalizeRows = (data: IUserInfo[]): IClientsData[] => data.map((val, i, arr) => ({
+    id: arr.length > 1 && val.password && val.email ? i + 1 : '',
     firstname: val.firstName ? val.firstName : '',
     lastname: val.secondName ? val.secondName : '',
     pass: val.password ? val.password : '',
@@ -47,7 +47,7 @@ const ClientList = ({permission}: {permission: IPermission}) => {
     setPage(0);
   };
 
-  const stringData: string[] = JSON.parse(localStorage.getItem('Users') || '');
+  const stringData: string[] = JSON.parse(localStorage.getItem('Users') || defaultUsersString);
   const data = stringData.map((val) => JSON.parse(val || ''));
   const rows: IClientsData[] = normalizeRows(data);
 

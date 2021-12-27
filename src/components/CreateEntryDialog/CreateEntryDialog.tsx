@@ -24,7 +24,7 @@ const CreateEntryDialog = ({
 }: ICreateEntryDialogProps) => {
   const computers = computersData.map(val => val.name);
   const stringUsers: string[] = JSON.parse(localStorage.getItem('Users') || defaultUsersString);
-  console.log(stringUsers);
+  // console.log(stringUsers);
   const Users = stringUsers.map((val) => JSON.parse(val));
   const allUsers = Users.map(val => `${val.firstName} ${val.secondName}`);
 
