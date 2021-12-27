@@ -19,7 +19,6 @@ import {formLabelClasses} from '@mui/material';
 interface IEnterCompProps {
   permission: IPermission;
   setPermission: React.Dispatch<React.SetStateAction<IPermission>>;
-  username?: string;
   toggleOpenDialog: () => void;
   setAuthLogin: React.Dispatch<React.SetStateAction<boolean>>;
   setIsCreateAdmin: React.Dispatch<React.SetStateAction<boolean>>;
@@ -39,7 +38,13 @@ const EnterComp = ({
   useEffect(() => {
     if (permission) {
       const currentUser = JSON.parse(localStorage.getItem('CurrentUser') || defaultUserString)
-      if (currentUser.firstName && currentUser.secondName) setUsername(`${currentUser.firstName[0]}${currentUser.secondName[0]}`)
+      if (currentUser.firstName && currentUser.secondName) {
+        setUsername(`${currentUser.firstName[0]}${currentUser.secondName[0]}`)
+      } else if (currentUser.firstName) {
+        setUsername(`${currentUser.firstName[0]}`)
+      } else if (currentUser.secondName) {
+        setUsername(`${currentUser.secondName[0]}`)        
+      }
     }
   }, [permission])
 
