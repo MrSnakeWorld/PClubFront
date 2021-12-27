@@ -4,30 +4,70 @@ import useToggle from './hooks/useToggle';
 import AppHeader from './components/AppHeader/AppHeader';
 import AuthDialog from './components/AuthDialog/AuthDialog';
 import Contacts from './pages/Contacts/Contacts';
-import {Route, Routes} from 'react-router-dom';
+import {Navigate, Route, Routes} from 'react-router-dom';
 import About from './pages/About/About';
 import ClientList from './pages/ClientList/ClientList';
 import Computers from './pages/Computers/Computers';
 import Entries from './pages/Entries/Entries';
-import {IPermission} from './constants';
+import {defaultUserString, IPermission} from './constants';
 import DrawerHeader from './components/DrawerHeader/DrawerHeader';
 import Main from './components/Main/Main';
-import {getUserInfo} from './services/userAuthService';
+import {getUserInfo, IRegisterRequest, IUserInfo} from './services/userAuthService';
+import CreateEntryDialog from './components/CreateEntryDialog/CreateEntryDialog';
+import PrivateOutlet from './components/PrivateOutlet/PrivateOutlet';
+import CreateUserDialog from './components/CreateUserDialog/CreateUserDialog';
 
-interface IBarElements {
+export interface IBarElements {
   text: string;
   path: string
 }
 
+export interface ICreateEntry {
+  date: string;
+  beginTime: string;
+  endTime: string;
+  user: string;
+  idComp: string;
+}
+
 function App() {
-  getUserInfo().then((res) => setPermission(res.Role));
   const [openDialog, toggleOpenDialog] = useToggle(false);
-  const [openToolBar, toggleOpenToolBar] = useToggle()
+  const [openToolBar, toggleOpenToolBar] = useToggle(false)
+  const [openCreateEntry, toggleOpenCreateEntry] = useToggle(false);
+  const [openCreateUser, toggleOpenCreateUser] = useToggle(false);
+  const [pc, setPc] = useState<string | undefined>()
   const [permission, setPermission] = useState<IPermission>();
   const [isAuthLogin, setAuthLogin] = useState<boolean>(true);
   const [barElements, setBarElements] = useState<Array<IBarElements>>([]);
-  console.log(permission)
+  const [isCreateAdmin, setIsCreateAdmin] = useState<boolean>(false);
+
+
+  const checkPermission = () => {
+    const currentUser: IUserInfo = JSON.parse(localStorage.getItem('CurrentUser') || defaultUserString);
+    if (currentUser) {
+      setPermission(currentUser.role);
+    }
+  }
+
+  const handleCreateEntry = (entry: ICreateEntry, toggle: () => void) => {
+    const normalizedEntry = JSON.stringify({
+      date: entry.date,
+      time: `${entry.beginTime} - ${entry.endTime}`,
+      user: entry.user,
+      idComp: entry.idComp
+    });
+    if (localStorage.getItem('Entries') !== null) {
+      const entries = JSON.parse(localStorage.getItem('Entries') || '');
+      localStorage.setItem('Entries', JSON.stringify([...entries, normalizedEntry]));
+    } else {
+      localStorage.setItem('Entries', JSON.stringify([normalizedEntry]));
+    }
+
+    toggle();
+  }
+
   useEffect(() => {
+    checkPermission();
     switch (permission) {
       case 'Admin': {
         setBarElements(
@@ -93,33 +133,55 @@ function App() {
         break;
       }
     }
-  }, [permission])
+  }, [permission]);
 
   return (
     <Main open={openToolBar}>
       <AppHeader
+        setIsCreateAdmin={setIsCreateAdmin}
         permission={permission}
         setPermission={setPermission}
         barElements={barElements} 
         openToolBar={openToolBar}
         toggleOpenToolBar={toggleOpenToolBar}
         toggleOpenDialog={toggleOpenDialog}
+        toggleOpenCreateEntry={toggleOpenCreateEntry}
+        toggleOpenCreateUser={toggleOpenCreateUser}
         setAuthLogin={setAuthLogin}
       />
       <DrawerHeader />
       <AuthDialog 
+        isCreateAdmin={isCreateAdmin}
         setPermission={setPermission}
         open={openDialog}
         toggle={toggleOpenDialog}
         isAuthLogin={isAuthLogin}
         setAuthLogin={setAuthLogin}
       />
+      <CreateEntryDialog
+        pc={pc}
+        open={openCreateEntry}
+        toggle={toggleOpenCreateEntry}
+        permission={permission}
+        handleCreateEntry={handleCreateEntry}
+      />
+      <CreateUserDialog 
+        open={openCreateUser}
+        toggle={toggleOpenCreateUser}
+      />
       <Routes>
         <Route path="/" element={<About/>}/>
-        <Route path="clientlist" element={<ClientList/>}/>
-        <Route path="computers" element={<Computers/>}/>
+        <Route path="clientlist" element={<PrivateOutlet isAllowed={permission === 'Admin'}/>}>
+          <Route path="" element={<ClientList permission={permission}/>}/>
+        </Route>
+        <Route path="computers" element={<PrivateOutlet isAllowed={permission}/>}>
+          <Route path="" element={<Computers setPc={setPc} toggleOpenCreateEntry={toggleOpenCreateEntry}/>}/>
+        </Route>
+        <Route path="entries" element={<PrivateOutlet isAllowed={permission}/>}>
+          <Route path="" element={<Entries permission={permission}/>}/>
+        </Route>
+
         <Route path="contacts" element={<Contacts/>}/>
-        <Route path="entries" element={<Entries permission={permission}/>}/>
       </Routes>
     </Main>  
   )

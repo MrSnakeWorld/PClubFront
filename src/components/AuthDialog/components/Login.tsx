@@ -43,13 +43,13 @@ const Login = ({
   return (
     <div className="login">
       <div className="header">
-        <h2>Авторизация</h2>
+        <h2 className="fheader">Авторизация</h2>
       </div>
       <div className="input">
-        <TextField variant="standard" label="Электронная почта" inputRef={refEmail}/>
+        <TextField variant="standard" fullWidth label="Электронная почта" inputRef={refEmail}/>
       </div>        
       <div className="input">
-        <FormControl sx={{ width: '25ch' }} variant="standard">
+        <FormControl fullWidth variant="standard">
           <InputLabel htmlFor="standard-adornment-password">Пароль</InputLabel>
           <Input
             id="standard-adornment-password"

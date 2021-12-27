@@ -10,12 +10,11 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import {getAllEntries, getUserEntries} from '../../redux/actions/entriesActions';
-import {useDispatch} from 'react-redux';
 import {useTypesSelector} from '../../redux/hooks';
-import {IPermission} from '../../constants';
+import {defaultEntriesString, IPermission} from '../../constants';
 
-interface IEntries {
-  id: number;
+export interface IEntries {
+  id: number | string;
   date: string;
   time: string;
   user: string;
@@ -27,18 +26,13 @@ interface IEntriesProps {
 }
 
 const Entries = ({permission}: IEntriesProps) => {
-  const dispatch = useDispatch();
-
   useEffect(() => {
-    if (permission === 'User') {
-      dispatch(getUserEntries());
-    } else if (permission === 'Admin') {
-      dispatch(getAllEntries());
-    }
-  }, [dispatch]);
+    // if (permission === 'User') {
 
-  const entries = useTypesSelector(state => state.entries.items);
-  console.log(entries);
+    // } else if (permission === 'Admin') {
+
+    // }
+  }, [permission]);
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -52,15 +46,21 @@ const Entries = ({permission}: IEntriesProps) => {
     setPage(0);
   };
 
-  const rows: IEntries[] = [
-    {
-      id: 1,
-      date: '02.10.2021',
-      time: '09:00 - 10:00',
-      user: 'Артем Соболев',
-      idComp: 'Пк 1'
-    }
-  ]
+
+
+  // const rows: IEntries[] = [
+  //   {
+  //     id: 1,
+  //     date: '02.10.2021',
+  //     time: '09:00 - 10:00',
+  //     user: 'Артем Соболев',
+  //     idComp: 'Пк 1'
+  //   }
+  // ]
+
+  const stringData: string[] = JSON.parse(localStorage.getItem('Entries') || defaultEntriesString);
+  const data = stringData.map((val) => JSON.parse(val || ''));
+  const rows = data.map((val, i) => ({...val, id: val.id ? val.id : i + 1 }))
 
   return (
     <Box>

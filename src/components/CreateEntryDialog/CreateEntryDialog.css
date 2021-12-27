@@ -1,0 +1,18 @@
+.create-entry-dialog {
+  border-radius: 100px;
+  overflow: hidden; 
+}
+
+.create-entry {
+  padding: 40px 100px;
+  background-color: aliceblue;
+
+}
+
+.input {
+  margin-bottom: 20px;
+}
+
+.reg-anchor {
+  width: 200px;
+}

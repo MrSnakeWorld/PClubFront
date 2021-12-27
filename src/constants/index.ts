@@ -1,3 +1,6 @@
+import {IEntries} from "../pages/Entries/Entries";
+import {IUserInfo} from "../services/userAuthService";
+
 export const drawerWidth = 250;
 export const computersGetAddress = "http://26.213.25.20:4001/api/computer";
 export const clubusersGetAddress = "http://26.213.25.20:4001/api/clubuser/all-users";
@@ -12,5 +15,25 @@ export interface IIconProps {
   height?: number;
   width?: number;
 };
+
+export const defaultUser: IUserInfo = {
+  email: '',
+  firstName: '',
+  password: '',
+  phoneNumber: '',
+  secondName: '',
+}
+
+export const defaultUserString = JSON.stringify(defaultUser);
+
+export const defaultEntries: IEntries[] = [{
+  id: ' ',
+  date: '',
+  time: '',
+  user: '',
+  idComp: ''
+}]
+
+export const defaultEntriesString = JSON.stringify(defaultEntries.map(val => JSON.stringify(val)))
 
 export type IPermission = 'User' | 'Admin' | undefined

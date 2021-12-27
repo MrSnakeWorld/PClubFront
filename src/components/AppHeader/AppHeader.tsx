@@ -12,10 +12,11 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import {Link} from 'react-router-dom';
+import {Link, useLocation} from 'react-router-dom';
 import './AppHeader.css';
 import {drawerWidth, IPermission} from '../../constants';
 import EnterComp from '../EnterComp/EnterComp';
+import {Button} from '@mui/material';
 
 interface IAppBarProps extends MuiAppBarProps {
   open?: boolean;
@@ -25,6 +26,9 @@ interface IAppHeaderProps {
   barElements: Array<{text: string, path: string}>;
   toggleOpenToolBar: () => void;
   toggleOpenDialog: () => void;
+  toggleOpenCreateEntry: () => void;
+  toggleOpenCreateUser: () => void;
+  setIsCreateAdmin: React.Dispatch<React.SetStateAction<boolean>>;
   setAuthLogin: React.Dispatch<React.SetStateAction<boolean>>;
   openToolBar: boolean;
   permission: IPermission;
@@ -60,12 +64,17 @@ export default function AppHeader({
   barElements, 
   openToolBar, 
   toggleOpenToolBar, 
-  toggleOpenDialog, 
+  toggleOpenDialog,
+  toggleOpenCreateEntry,
+  toggleOpenCreateUser,
   setAuthLogin,
+  setIsCreateAdmin,
   permission,
   setPermission
 }: IAppHeaderProps) {
   const theme = useTheme();
+
+  const location = useLocation();
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -87,6 +96,7 @@ export default function AppHeader({
           >
             <MenuIcon />
           </IconButton>
+          
         </Toolbar>
         <p className="fmain-header">
           PClub
@@ -96,7 +106,34 @@ export default function AppHeader({
           setPermission={setPermission}
           toggleOpenDialog={toggleOpenDialog}
           setAuthLogin={setAuthLogin}
+          setIsCreateAdmin={setIsCreateAdmin}
         />
+        {permission ? (
+          <Button 
+          variant="contained" 
+          className="btn-create-entry" 
+          sx={{
+            backgroundColor: '#51a2f1', 
+            color: '#fff', 
+          }}
+          onClick={toggleOpenCreateEntry}
+        >
+          Добавить Запись
+        </Button>
+        ) : null}
+        {permission === 'Admin' && location.pathname == '/clientlist' ? (
+          <Button 
+          variant="contained" 
+          className="btn-create-user" 
+          sx={{
+            backgroundColor: '#51a2f1', 
+            color: '#fff', 
+          }}
+          onClick={toggleOpenCreateUser}
+        >
+          Добавить клиента
+        </Button>
+        ) : null}
       </AppBar>
       <Drawer
         sx={{

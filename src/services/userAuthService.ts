@@ -57,12 +57,12 @@ export const getTokenHeader = (): ITokenBody => {
 }
 
 export interface IUserInfo {
-    Email: string,
-    FirstName: string,
-    SecondName: string,
-    PhoneNumber: string,
-    Role: IPermission,
-    sub: string
+    email: string;
+    firstName: string;
+    secondName: string;
+    phoneNumber: string;
+    role?: IPermission;
+    password: string;
 }
 
 export const getUserInfo = async () : Promise<IUserInfo> => {

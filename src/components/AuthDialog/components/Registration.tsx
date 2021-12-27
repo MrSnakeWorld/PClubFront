@@ -16,11 +16,13 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 interface IRegistrationProps {
   toggleLogin: React.Dispatch<React.SetStateAction<boolean>>;
   handleClick: (userData: IRegisterRequest) => any;
+  isCreateAdmin: boolean;
 }
 
 const Registration = ({
   toggleLogin,
-  handleClick
+  handleClick,
+  isCreateAdmin
 }: IRegistrationProps) => {
   const handleLogin = () => {
     toggleLogin(true)
@@ -34,6 +36,13 @@ const Registration = ({
     event.preventDefault();
   };
 
+  const checkRole = (): string => {
+    if (localStorage.getItem('Users')) {
+      return isCreateAdmin ? 'Admin' : 'User'
+    }
+    return 'Admin'
+  }
+
   const [showPassword, setShowPassword] = useState(false);
 
   const refFirstname = useRef<HTMLInputElement>(null);
@@ -45,22 +54,22 @@ const Registration = ({
   return (
     <div className="registration">
       <div className="header">
-        <h2>Регистрация</h2>
+        <h2 className="fheader">{isCreateAdmin ? 'Добавление администратора' : 'Регистрация'}</h2>
       </div>
       <div className="input">
-        <TextField variant="standard" label="Имя" inputRef={refFirstname}/>
+        <TextField fullWidth variant="standard" label="Имя" inputRef={refFirstname}/>
       </div>
       <div className="input">
-        <TextField variant="standard" label="Фамилия" inputRef={refLastname}/>
+        <TextField fullWidth variant="standard" label="Фамилия" inputRef={refLastname}/>
       </div>
       <div className="input">
-        <TextField variant="standard" label="Номер телефона" inputRef={refPhone}/>
+        <TextField fullWidth variant="standard" label="Номер телефона" inputRef={refPhone}/>
       </div>
       <div className="input">
-        <TextField variant="standard" label="Электронная почта" inputRef={refEmail}/>
+        <TextField fullWidth variant="standard" label="Электронная почта" inputRef={refEmail}/>
       </div>
       <div className="input">
-        <FormControl sx={{ width: '25ch' }} variant="standard">
+        <FormControl fullWidth variant="standard">
           <InputLabel htmlFor="standard-adornment-password">Пароль</InputLabel>
           <Input
             id="standard-adornment-password"
@@ -88,11 +97,13 @@ const Registration = ({
         email: refEmail?.current ? refEmail?.current.value : '',
         phoneNumber: refPhone?.current ? refPhone?.current.value : '',
         password: refPass?.current ? refPass?.current.value : '',
-        role: 'Admin'
-      })}>Зарегистрироваться</Button> <br/>
+        role: checkRole()
+      })}>{!isCreateAdmin ? 'Зарегистрироваться' : 'Добавить'}</Button> <br/>
+      {!isCreateAdmin  ? (
       <p>
         <a className="fmain-anchor reg-anchor" onClick={handleLogin}>Есть логин? <br/> Войти</a>
       </p>
+      ) : null}
     </div>
   )
 }

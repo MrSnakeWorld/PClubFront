@@ -5,11 +5,13 @@ import { getTokenHeader } from "../../services/userAuthService"
 import { EntryActions, EntryActionTypes, IEntry } from "../types/entryTypes"
 
 export const getUserEntries = () => {
+  console.log('action')
     return async (dispatch: Dispatch<EntryActions>) => {
         try {
             const token = getTokenHeader();
             dispatch({type: EntryActionTypes.START_FETCH_ENTRIES})
             const response = await axios.get<IEntry[]>(userEntriesGetAddress,  {headers: { Authorization: `Bearer ${token.access_token}` }})
+            console.log('response', response);
             dispatch({type: EntryActionTypes.SUCCESS_FETCH_ENTRIES, payload: response.data})
         } catch (error) {
             dispatch({type: EntryActionTypes.CATCH_ERROR_ENTRIES, payload: (error as Error).message})
@@ -18,11 +20,13 @@ export const getUserEntries = () => {
 }
 
 export const getAllEntries = () => {
+  console.log('action')
     return async (dispatch: Dispatch<EntryActions>) => {
         try {
             const token = getTokenHeader();
             dispatch({type: EntryActionTypes.START_FETCH_ENTRIES})
             const response = await axios.get<IEntry[]>(allEntriesGetAddress,  {headers: { Authorization: `Bearer ${token.access_token}` }})
+            console.log('response', response);
             dispatch({type: EntryActionTypes.SUCCESS_FETCH_ENTRIES, payload: response.data})
         } catch (error) {
             dispatch({type: EntryActionTypes.CATCH_ERROR_ENTRIES, payload: (error as Error).message})

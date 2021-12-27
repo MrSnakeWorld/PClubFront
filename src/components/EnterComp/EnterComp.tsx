@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {IPermission} from '../../constants';
+import {defaultUserString, IPermission} from '../../constants';
 import './EnterComp.css';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -13,7 +13,8 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import {getUserInfo} from '../../services/userAuthService';
+import {getUserInfo, IUserInfo} from '../../services/userAuthService';
+import {formLabelClasses} from '@mui/material';
 
 interface IEnterCompProps {
   permission: IPermission;
@@ -21,18 +22,25 @@ interface IEnterCompProps {
   username?: string;
   toggleOpenDialog: () => void;
   setAuthLogin: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsCreateAdmin: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const EnterComp = ({
   permission,
   setPermission,
   toggleOpenDialog,
-  setAuthLogin
+  setAuthLogin,
+  setIsCreateAdmin
 }: IEnterCompProps) => {
   const [username, setUsername] = React.useState<string>('');
 
+  const currentUser: IUserInfo = JSON.parse(localStorage.getItem('CurrentUser') || defaultUserString);
+
   useEffect(() => {
-    getUserInfo().then((res) => setUsername(`${res.FirstName[0]}${res.SecondName[0]}`));
+    if (permission) {
+      const currentUser = JSON.parse(localStorage.getItem('CurrentUser') || defaultUserString)
+      if (currentUser.firstName && currentUser.secondName) setUsername(`${currentUser.firstName[0]}${currentUser.secondName[0]}`)
+    }
   }, [permission])
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
@@ -55,19 +63,27 @@ const EnterComp = ({
 
   const handleLogin = () => {
     setAuthLogin(true);
+    setIsCreateAdmin(false);
     toggleOpenDialog();
   };
 
   const handleRegistration = () => {
     setAuthLogin(false);
+    setIsCreateAdmin(false);
     toggleOpenDialog();
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('userToken');
-    localStorage.removeItem('userInfo');
-    handleCloseNavMenu();
-    setPermission(undefined);
+    if (currentUser) {
+      localStorage.removeItem('CurrentUser');
+      handleCloseUserMenu();
+      setPermission(undefined);
+    }
+  }
+
+  const handleCreateAdmin = () => {
+    handleCloseUserMenu();
+    setIsCreateAdmin(true);
     toggleOpenDialog();
   }
 
@@ -95,9 +111,22 @@ const EnterComp = ({
         }}
         open={Boolean(anchorElUser)}
         onClose={handleCloseUserMenu}
-      >
-        <MenuItem onClick={handleCloseNavMenu}>
-          <Typography textAlign="center" onClick={handleLogout}>Выйти</Typography>
+      > 
+        <MenuItem onClick={handleCloseUserMenu}>
+          <Typography textAlign="center" >{`${currentUser.firstName} ${currentUser.secondName}`}</Typography>
+        </MenuItem>
+        <MenuItem onClick={handleCloseUserMenu}>
+          <Typography textAlign="center" >{
+            permission === 'Admin' ? 'Администратор' : 'Пользователь'
+          }</Typography>
+        </MenuItem>
+        {permission === 'Admin' ? (
+          <MenuItem onClick={handleCreateAdmin}>
+            <Typography textAlign="center" >Добавить Администратора</Typography>
+          </MenuItem>
+        ) : null}
+        <MenuItem onClick={handleLogout}>
+          <Typography textAlign="center" >Выйти</Typography>
         </MenuItem>
       </Menu>
     </Box>

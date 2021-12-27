@@ -1,5 +1,5 @@
 export interface IComputer {
-    id: 0,
+    id: number,
     name: string,
     cpu: string,
     gpu: string,

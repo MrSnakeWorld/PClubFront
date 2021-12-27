@@ -9,6 +9,10 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
+import {IUserInfo} from '../../services/userAuthService';
+import {Button} from '@mui/material';
+import './ClientList.css';
+import {IPermission} from '../../constants';
 
 interface IClientsData {
   id: number;
@@ -19,7 +23,18 @@ interface IClientsData {
   phone: number | string;
 }
 
-const ClientList = () => {
+const ClientList = ({permission}: {permission: IPermission}) => {
+  const normalizeRows = (data: IUserInfo[]): IClientsData[] => data.map((val, i) => ({
+    id: i + 1,
+    firstname: val.firstName ? val.firstName : '',
+    lastname: val.secondName ? val.secondName : '',
+    pass: val.password ? val.password : '',
+    email: val.email ? val.email : '',
+    phone: val.phoneNumber ? val.phoneNumber : ''
+  }))
+  
+  // console.log('location', );
+
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -32,19 +47,13 @@ const ClientList = () => {
     setPage(0);
   };
 
-  const rows: IClientsData[] = [
-    {
-      id: 1,
-      firstname: 'Артем',
-      lastname: 'Соболев',
-      pass: '1234',
-      email: 'aaa@hotmail.com',
-      phone: '1234'
-    }
-  ]
+  const stringData: string[] = JSON.parse(localStorage.getItem('Users') || '');
+  const data = stringData.map((val) => JSON.parse(val || ''));
+  const rows: IClientsData[] = normalizeRows(data);
 
   return (
     <Box>
+      {permission === 'Admin' ? (<br/>) : null}
       <h2 className="fheader">Список клиентов</h2>
         <Paper sx={{ width: '100%', overflow: 'hidden' }}>
           <TableContainer sx={{ maxHeight: 440 }}>
