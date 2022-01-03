@@ -66,7 +66,7 @@ const Contacts = () => {
               <div className="icons"><Persons/></div>
             </Grid>
             <Grid item xs={11}>
-              <h2 className='fadd-header'>Разработчик/Дизайнер</h2>
+              <h2 className='fadd-header'>Глава разработки/Разработчик</h2>
               <p className='fmain-text'>Соболев Артем</p>
             </Grid>
           </Grid>
